@@ -1,15 +1,10 @@
-Setup freeradius
-----------------
-
-A quanto già disposto qui: https://github.com/peppelinux/UniTools/blob/master/freeradius/freeradius_3.0.12_debian9.setup.sh
-
-aggiungere i seguenti:
+Freeradius customization
+------------------------
 
 Post-Auth
 ---------
 
-in /etc/freeradius/3.0/mods-config/sql/main/mysql/queries.conf, estendere
-post-auth così
+in `/etc/freeradius/3.0/mods-config/sql/main/mysql/queries.conf` configure this way
 
 ````
 # post-auth {

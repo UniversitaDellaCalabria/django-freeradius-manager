@@ -24,7 +24,7 @@ admin.site.site_title  = _('Pannello di amministrazione')
 
 
 urlpatterns = [
-    path(getattr(settings, 'ADMIN_PATH', 'admin'), admin.site.urls),
+    path(getattr(settings, 'ADMIN_PATH', 'admin/'), admin.site.urls),
 ]
 
 if 'identity' in settings.INSTALLED_APPS:

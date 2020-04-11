@@ -41,26 +41,26 @@ INSTALLED_APPS = [
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 #DATABASES = {
     #'default': {
-        #'ENGINE': 'django.db.backends.mysql',
-        #'NAME': 'dfreerad',
-        #'HOST': 'localhost',
-        #'USER': 'dfreerad',
-        #'PASSWORD': 'thatpassword',
-        #'PORT': '',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     #}
 #}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'radius',
+        'HOST': '10.0.3.85',
+        'USER': 'radius',
+        'PASSWORD': 'radiussecret',
+        'PORT': '',
+    }
+}
 
-RADIUS_SERVER = 'localhost'
+RADIUS_SERVER = '10.0.3.85'
 RADIUS_PORT = 1812
-RADIUS_SECRET = 'thatsecret'
+RADIUS_SECRET = 'radiussecret'
 
 #AUTHENTICATION_BACKENDS = [
                             #~ 'django.contrib.auth.backends.ModelBackend',
