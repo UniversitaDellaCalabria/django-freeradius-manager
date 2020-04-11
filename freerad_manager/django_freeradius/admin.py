@@ -9,6 +9,7 @@ from . admin_actions import disable_action, enable_action
 from . admin_filters import DuplicateListFilter, ExpiredListFilter
 from . forms import RadiusCheckAdminForm, NasModelForm
 from . models import *
+from . models import _encode_secret
 
 
 class TimeStampedEditableAdmin(ModelAdmin):

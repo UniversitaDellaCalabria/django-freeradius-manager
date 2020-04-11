@@ -8,8 +8,8 @@ urlpatterns = [
         name='renew-radius-password',
     ),
 
-    path('', login, name="guest_login"),
-    path('logout', logout, name="guest_logout"),
+    path('', login, name="login"),
+    path('logout', logout, name="logout"),
     path('home', home, name="home"),
     path('change_password/<radcheck_id>', change_password, name="change_password"),
     path('reset_password', reset_password, name="reset_password"),

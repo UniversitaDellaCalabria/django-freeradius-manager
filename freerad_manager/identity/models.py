@@ -1,11 +1,13 @@
 import uuid
 
+from django.conf import settings
 from django.db import models
 from django_countries.fields import CountryField
 from model_utils.fields import AutoCreatedField, AutoLastModifiedField
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django_freeradius.models import RadiusCheck
+
 
 class TimeStampedModel(models.Model):
     """
@@ -71,6 +73,23 @@ class Identity(TimeStampedModel):
         ordering = ['created',]
         verbose_name_plural = _("Identità digitali")
 
+    def create_token(self, radcheck):
+        _time_delta = datetime.timedelta(days=validity_days)
+        validity_days = settings.IDENTITY_TOKEN_EXPIRATION_DAYS
+        identity_token = IdentityRadiusAccount.objects.filter(identity=identity,
+                                                              radius_account=radcheck,
+                                                              is_active=True,
+                                                              valid_until__gte=timezone.now()).last()
+        if not identity_token:
+            identity_token = IdentityRadiusAccount.objects.create(identity=identity,
+                                                   radius_account=radcheck,
+                                                   is_active=True,
+                                                   valid_until=timezone.now()+_time_delta)
+        else:
+            identity_token.valid_until = identity_token.valid_until + _time_delta
+            identity_token.save()
+        return identity_token
+    
     def get_tokens(self):
         return IdentityRadiusAccount.objects.filter(identity=self)
 

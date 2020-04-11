@@ -3,14 +3,13 @@ from django.contrib import messages
 from django.core.mail import send_mail, mail_admins
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from . models import *
-from . views import _create_identity_radius_token
 
 
 def send_email_renew_password(modeladmin, request, queryset):
     for identity in queryset:
-        # print(identity)
         accounts = []
         for account in identity.identityradiusaccount_set.filter(radius_account__is_active=True,
                                                                  radius_account__valid_until__gte=timezone.now()):
@@ -19,7 +18,7 @@ def send_email_renew_password(modeladmin, request, queryset):
 
         # print(accounts)
         for radcheck in accounts:
-            identity_token = _create_identity_radius_token(identity, radcheck)
+            identity_token = identity.create_token(radcheck)
             if identity_token.sent:
                 identity_token.sent = False
             # print(identity_token)
@@ -46,4 +45,4 @@ def send_email_renew_password(modeladmin, request, queryset):
             messages.add_message(request, msg_type,
             '{} {}. Email inviata a {}.'.format(identity, radcheck, identity.email))
 
-send_email_renew_password.short_description = "Invia E-Mail di reset delle credenziali (token)"
+send_email_renew_password.short_description = _("Invia E-Mail di reset delle credenziali (token)")

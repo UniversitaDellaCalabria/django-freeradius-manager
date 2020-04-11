@@ -6,6 +6,7 @@ from .admin_actions import send_email_renew_password
 from .admin_inline import *
 from .models import *
 
+
 @admin.register(Identity)
 class IdentityAdmin(admin.ModelAdmin):
     inlines = [AffiliationInline,

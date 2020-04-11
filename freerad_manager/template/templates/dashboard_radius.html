@@ -17,7 +17,7 @@ $(document).ready(function() {
             "responsive": true,
             "processing": true,
             "serverSide": true,
-            "ajax": "{% url 'datatable_data' %}",
+            "ajax": "{% url 'identity:datatable_data' %}",
 
             "order": [[ 0, "desc" ]],
             "columnDefs": [
@@ -74,7 +74,7 @@ $(document).ready(function() {
                           <div class="menu hidden" tabindex="-1">
                             {% for ac in accounts %}
                             <div class="item">
-                                <a href="{% url 'change_password' ac.pk %}" >{{ ac.username }}</a>
+                                <a href="{% url 'identity:change_password' ac.pk %}" >{{ ac.username }}</a>
                             </div>
                             {% endfor %}
                           </div>
@@ -85,11 +85,11 @@ $(document).ready(function() {
                         Admin backend
                       </a>
                       {% endif %}
-                      <a href="{% url 'guest_logout' %}" class="item">
+                      <a href="{% url 'identity:logout' %}" class="item">
                         Logout
                       </a>
                       {% else %}
-                      <a href="{% url 'guest_login' %}" class="item">
+                      <a href="{% url 'identity:login' %}" class="item">
                         Back to Login Page
                       </a>
                       {% endif %}

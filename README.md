@@ -1,9 +1,9 @@
 # Django Freeradius Manager
 ---------------------------
 
-A Freeradius 3 Manager with Accounts provisioning.
+Django Freeradius Manager is an admin interface to a freeradius 3 database with identity management and credentials provisioning.
+This project is built on top of an indipendent fork of [django-freeradius](https://github.com/openwisp/django-freeradius).
 
-This project was started upon a fork of django-freeradius.
 
 ![Landing page](gallery/1.png)
 
@@ -11,8 +11,12 @@ This project was started upon a fork of django-freeradius.
 #### Features
 
 - Full localization support based on Django
--
--
+- Identity management
+- Expirable Freeeradius accounts
+- Credentials provisioning through expirable Token sent via email
+- Users can view all their connections and devices in an Ajax DataTable
+- importable identities via CSV files 
+
 
 #### Setup
 
@@ -121,6 +125,6 @@ See `README_freeradius.md` for a fine tuning od SQL queries.
 - CNR IMAA guys
 
 
-#### Author
+#### Authors
 
-- Giuseppe De Marco
+- Giuseppe De Marco <giuseppe.demarco@unical.it>
