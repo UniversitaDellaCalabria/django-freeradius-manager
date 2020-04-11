@@ -6,7 +6,7 @@ This project is built on top of an indipendent fork of [django-freeradius](https
 
 
 ![Landing page](gallery/1.png)
-
+![Backend page](gallery/4.png)
 
 #### Features
 
