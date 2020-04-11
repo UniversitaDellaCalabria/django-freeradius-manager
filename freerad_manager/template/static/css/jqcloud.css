@@ -1,0 +1,88 @@
+/*!
+ * jQCloud
+ * Copyright 2011 Luca Ongaro (http://www.lucaongaro.eu)
+ * Copyright 2013 Daniel White (http://www.developerdan.com)
+ * Copyright 2014 Damien "Mistic" Sorel (http://www.strangeplanet.fr)
+ * Licensed under MIT (http://opensource.org/licenses/MIT)
+ */
+
+/* layout */
+div.jqcloud {
+  overflow: hidden;
+  position: relative;
+}
+
+div.jqcloud span {
+  padding: 0;
+}
+
+/* fonts */
+div.jqcloud {
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 10px;
+  line-height: normal;
+}
+
+div.jqcloud a {
+  font-size: inherit;
+  text-decoration: none;
+}
+
+
+/* colors * /
+div.jqcloud { color: #069; }
+div.jqcloud a { color: 09b; }
+div.jqcloud a:hover { color: #0cf; }
+/*
+div.jqcloud span.w10 { color: #0cf; }
+div.jqcloud span.w9 { color: #0cf; }
+div.jqcloud span.w8 { color: #0cf; }
+div.jqcloud span.w7 { color: #39d; }
+div.jqcloud span.w6 { color: #90c5f0; }
+div.jqcloud span.w5 { color: #90a0dd; }
+div.jqcloud span.w4 { color: #90c5f0; }
+div.jqcloud span.w3 { color: #a0ddff; }
+div.jqcloud span.w2 { color: #99ccee; }
+div.jqcloud span.w1 { color: #aab5f0; }
+*/
+.w40 a{ color: #000; }
+.w39 a{ color: #000; }
+.w38 a{ color: #111; }
+.w37 a{ color: #111; }
+.w36 a{ color: #222; }
+.w35 a{ color: #222; }
+.w34 a{ color: #333; }
+.w33 a{ color: #333; }
+.w32 a{ color: #444; }
+.w31 a{ color: #444; }
+.w30 a{ color: #555; }
+.w30 a{ color: #555; }
+.w29 a{ color: #666; }
+.w28 a{ color: #666; }
+.w27 a{ color: #666; }
+.w26 a{ color: #666; }
+.w25 a{ color: #777; }
+.w24 a{ color: #777; }
+.w23 a{ color: #777; }
+.w22 a{ color: #777; }
+.w21 a{ color: #888; }
+.w20 a{ color: #888; }
+.w19 a{ color: #888; }
+.w18 a{ color: #888; }
+.w17 a{ color: #999; }
+.w16 a{ color: #999; }
+.w15 a{ color: #999; }
+.w14 a{ color: #999; }
+.w13 a{ color: #AAA; }
+.w12 a{ color: #AAA; }
+.w11 a{ color: #AAA; }
+.w10 a{ color: #AAA; }
+ .w9 a{ color: #BBB; }
+ .w8 a{ color: #BBB; }
+ .w7 a{ color: #BBB; }
+ .w6 a{ color: #BBB; }
+ .w5 a{ color: #CCC; }
+ .w4 a{ color: #CCC; }
+ .w3 a{ color: #CCC; }
+ .w2 a{ color: #CCC; }
+ .w1 a{ color: #CCC; }

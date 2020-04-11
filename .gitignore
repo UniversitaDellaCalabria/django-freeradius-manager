@@ -1,0 +1,5 @@
+*__pycache__*
+*build*
+*sdist*
+freerad_manager/db.sqlite3
+freerad_manager/settingslocal.py

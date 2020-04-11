@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="ui error">Error!</h2>
+
+    <h4>It seems that you haven't a valid radius account</h4>
+
+    <div class="ui info message">
+    Contact Unicals' HelpDesk for additional informations.
+    </div>
+    {% if request.user.is_staff  %}
+    <a href="{% url 'admin:index' %}" class="ui green button">
+    go to Admin backend
+    </a>
+    {% endif %}
+    <a href="{% url 'guest_logout' %}" class="ui blue button">go back to Login page »</a>
+{% endblock %}

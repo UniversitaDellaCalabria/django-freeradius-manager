@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+    <style>    
+    .errorlist {
+        color: red;
+    }
+
+    .helptext {
+        color: grey;
+    }
+    
+    </style>
+{% endblock extra_head %}
+
+{% block content %}
+    <h2>Request a Password Reset</h2>
+
+    {% if enabled != True %}
+    <div class="ui warning message">
+        Warning! Password reset is unavailable for SMTP service manteinance.
+    </div>
+    {% endif %}
+    
+    <p>
+    Please fill the form below. If your e-mail is valid an email containing a secret token will be sent to you.
+    </p>
+    
+    <form class="ui form" method="post">
+        {% csrf_token %}
+        <table >
+        {{ form }}
+        </table>
+        <a href="/" style="margin-top: 5px; background: #9B9C9E;" class="ui blue button">Back</a>
+        <button class="ui red submit button" type="submit">Submit</button>
+    </form>
+
+{% endblock %}

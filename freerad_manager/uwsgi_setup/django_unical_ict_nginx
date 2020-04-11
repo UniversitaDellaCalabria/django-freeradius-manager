@@ -1,0 +1,51 @@
+# the upstream component nginx needs to connect to
+upstream django-unical-ict {
+    server 127.0.0.1:3000; 
+}
+
+# configuration of the server
+server {
+    listen      80;
+    server_name guest.unical.it;
+    charset     utf-8;
+
+    #listen 443 ssl;
+    #ssl_certificate /etc/letsencrypt/live/didattica.cla.unical.it/fullchain.pem;
+    #ssl_certificate_key /etc/letsencrypt/live/didattica.cla.unical.it/privkey.pem;
+
+#    if ($scheme != "https") {
+#        rewrite ^ https://$host$uri permanent;
+#    } 
+
+    #return 301 https://ola.unical.it/;
+
+    access_log /var/log/nginx/django-unical-ict.access.log;
+    error_log  /var/log/nginx/django-unical-ict.error.log error;
+
+    # max upload size
+    client_max_body_size 75M;   # adjust to taste
+
+    # Django media
+    location /statics  {
+        alias /opt/django-unical-ict/django-unical-ict/static;  # your Django project's media files - amend as required
+	autoindex on;
+    }
+
+    location /media {
+        alias /opt/django-unical-ict/django-unical-ict/data/media; # your Django project's static files - amend as required
+        autoindex off;
+    }
+
+    location /static {
+        alias /opt/django-unical-ict/django-unical-ict/data/static; # your Django project's static files - amend as required
+        autoindex off;
+    }
+
+
+    # Finally, send all non-media requests to the Django server.
+    location / {
+        uwsgi_pass  django-unical-ict;
+        uwsgi_param HTTP_X_FORWARDED_PROTOCOL https;
+        include     /opt/django-unical-ict/django-unical-ict/uwsgi_setup/uwsgi_params; # the uwsgi_params file you installed
+    }
+}

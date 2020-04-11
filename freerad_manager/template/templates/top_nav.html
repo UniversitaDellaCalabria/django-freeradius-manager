@@ -1,0 +1,55 @@
+{% load static %}
+    <nav class=" sfondo_bordeaux">
+    	<div class="container">
+            <div class="row clearfix">
+                <div class="col-xs-12">
+                    <ul class="elementi_menu" style="margin-top:-5px;">
+                        <li>
+                            <div class="elemento_testo">
+                                {% now "j F Y H:i" %}
+                            </div>
+                        </li>
+                        <li>&nbsp;</li>
+                        <li style="background-color:#ECEBE4; height:40px; padding: 0px 2px 0px 2px; width:0px; margin-top:0px;">
+                            &nbsp;
+                        </li>
+                        <li>&nbsp;</li>
+                        <li>
+                            <a href="https://www.youtube.com/channel/UCnd5Oen95TMO9aLfVRUAABQ">
+                                <img src="{% static 'icons/youtube-icon.png' %}" width="22" alt="Youtube">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://it-it.facebook.com/pages/Universit%C3%A0-della-Calabria/166678814380">
+                                <img src="{% static 'icons/facebook-icon.png' %}" width="22" alt="Facebook">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/UnicalPortale">
+                                <img src="{% static 'icons/twitter-icon.png' %}" width="22" alt="Twitter">
+                            </a>
+                        </li>
+                        <li>&nbsp;</li>
+                        <li style="background-color:#ECEBE4; height:40px; padding: 0px 2px 0px 2px; width:0px; margin-top:0px;">
+                            &nbsp;
+                        </li>
+                        <li>&nbsp;</li>
+                        <li style="padding-top:5px;">
+                            
+                        </li>
+                        <li>&nbsp;</li>
+                        <li style="background-color:#ECEBE4; height:40px; padding: 0px 2px 0px 2px; width:0px; margin-top:0px;">
+                            &nbsp;
+                        </li>
+                        <li>
+                            <form class="navbar-form navbar-left" style="margin-top:0px; margin-right:-15px; padding-top:0px;" action="https://www.unical.it/portale/search_results.cfm">
+                                <div class="form-group">
+                                    <input name="search" class="form-control" type="text" placeholder="cerca" style=" border-radius:0px;">
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>

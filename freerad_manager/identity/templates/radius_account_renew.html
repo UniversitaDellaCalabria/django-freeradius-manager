@@ -1,0 +1,32 @@
+{% extends "dashboard_radius.html" %}
+
+{% block extra_head %}
+    <style>    
+    .errorlist {
+        color: red;
+    }
+
+    .helptext {
+        color: grey;
+    }
+    
+    </style>
+{% endblock extra_head %}
+
+{% block menu_password %}
+{% endblock menu_password %}
+
+{% block content_sticker %}
+    <h2>Renew Password</h2>
+    <h5>{{ radius_account }}</h5>
+    
+    <form class="ui form" method="post">
+        {% csrf_token %}
+        <table >
+        {{ form }}
+        </table>
+        <a href="/" style="margin-top: 5px; background: #9B9C9E;" class="ui blue button">Back</a>
+        <button class="ui red submit button" type="submit">Submit</button>
+    </form>
+
+{% endblock %}
