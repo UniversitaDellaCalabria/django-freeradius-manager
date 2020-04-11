@@ -118,7 +118,7 @@ See `README_freeradius.md` for a fine tuning od SQL queries.
 #### Credits
 
 - OpenWISP community
-- CNR IMRA guys
+- CNR IMAA guys
 
 
 #### Author
