@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django_countries',
     'django_freeradius',
     'identity',
-    
 ]
 
 # Database

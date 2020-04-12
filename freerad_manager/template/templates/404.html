@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+{% load static %}
+
 {% block content %}
     <h2 class="ui error">404</h2>
 
-    <h4>Page or Resource not Found</h4>
+    <h4>{% trans 'Page or Resource not Found' %}</h4>
 
-    <a href="/" class="ui blue button">go back to Login page »</a>
+    <a href="/" class="ui blue button">{% trans 'Go back to Login page »' %}</a>
 {% endblock %}

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
-    <h2 class="ui header">Guest unical.it</h2>
+    <h2 class="ui header">{% trans 'Welcome' %}</h2>
     <div class="ui divider"></div>
 
     <div class="ui grid">
@@ -10,44 +11,35 @@
         <div class="ten wide column">
 
             <h3 class="ui header">
-                Wireless and Wired Network Accesses
+                {% trans 'Wireless and Wired Network Accesses' %}
             </h3>
             <p>
-                Welcome to the network service dedicated to visiting professors, visiting students and other guests outside Eduroam.
+                {% trans 'Welcome to the network service dedicated to Accounts provision.' %}
 
-                Guest users now can manage their credentials and control their network activity.
+                {% trans 'Users can manage their credentials and control their network activity.' %}
             </p>
 
             <h3 class="ui header">
-                How does it work?
+                {% trans 'How does it work?' %}
             </h3>
             <p>
-                Network accesses to the wireless network can be used through all Unical's "eduroam" hotspots, using PEAP authentication.
+                {% trans 'Network accesses to the wireless network can be used through all Hotspot, using PEAP authentication.' %}
             </p>
 
             <p>
-                Remember to <a style="color: #20679c;" href="/ca/ca.der">download and install</a> the Certificate Authority into your Mobile phone or computer.
+                {% trans 'Remember to' %} <a style="color: #20679c;" href="/ca/ca.der">{% trans 'download and install' %}</a> {% trans 'the Certificate Authority into your Mobile phone or computer.' %}
             </p>
 
-<!--
-            <h3 class="ui header">
-                Is this Eduroam?
-            </h3>
-            <p>
-                @guest.unical.it is not a real Eduroam account, It will only works in Unical campus through Eduroam hotspot but in the Unical perimeter, Eduroam international roaming will not apply to @guest.unical.it, a guest account will not work outside of Unical. If you need a real Eduroam account you should gain a real Unical Digital Identity.
-            </p>
--->
+              <a class="ui green button" style="margin-top: 13px;" href='http://www.unical.it/portale/strutture/centri/centroict/schdeserviziict/guestunical/index.cfm'>{% trans 'Learn more about this Service »' %}</a>
 
-              <a class="ui green button" style="margin-top: 13px;" href='http://www.unical.it/portale/strutture/centri/centroict/schdeserviziict/guestunical/index.cfm'>Learn more about guest.unical.it »</a>
-
-              <a class="ui blue button" style="margin-top: 13px;" href="http://www.unical.it/portale/strutture/centri/centroict/schdeserviziict/eduroameng/index.cfm">Learn more about Eduroam »</a>
+              <a class="ui blue button" style="margin-top: 13px;" href="http://www.unical.it/portale/strutture/centri/centroict/schdeserviziict/eduroameng/index.cfm">{% trans 'Learn more about Eduroam »' %}</a>
 
         </div>
 
         <div class="six wide column">
 
             <h3 class="ui header">
-                Login
+                {% trans 'Login' %}
             </h3>
 
             {% if error_msg %}
@@ -62,7 +54,7 @@
                 <div class="field">
                   <div class="ui left icon input">
                     <i class="user icon"></i>
-                    <input type="text" name="username" placeholder="username@guest.unical.it" required autofocus>
+                    <input type="text" name="username" placeholder="username@realm.net" required autofocus>
                   </div>
                 </div>
                 <div class="field">
@@ -71,8 +63,8 @@
                     <input type="password" name="password" placeholder="Password" required>
                   </div>
                 </div>
-                <button class="ui fluid large red submit button">Login</button>
-                <a href="{% url 'identity:reset_password' %}" style="margin-top: 5px; background: #9B9C9E;" class="ui fluid large blue button">Forgot your Password?</a>
+                <button class="ui fluid large red submit button">{% trans 'Login' %}</button>
+                <a href="{% url 'identity:reset_password' %}" style="margin-top: 5px; background: #9B9C9E;" class="ui fluid large blue button">{% trans 'Forgot your Password?' %}</a>
 
               </div>
 

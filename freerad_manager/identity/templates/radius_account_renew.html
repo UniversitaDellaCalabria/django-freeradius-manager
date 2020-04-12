@@ -1,4 +1,6 @@
 {% extends "dashboard_radius.html" %}
+{% load i18n %}
+{% load static %}
 
 {% block extra_head %}
     <style>    
@@ -17,7 +19,7 @@
 {% endblock menu_password %}
 
 {% block content_sticker %}
-    <h2>Renew Password</h2>
+    <h2>{% trans 'Renew Password' %}</h2>
     <h5>{{ radius_account }}</h5>
     
     <form class="ui form" method="post">
@@ -25,8 +27,8 @@
         <table >
         {{ form }}
         </table>
-        <a href="/" style="margin-top: 5px; background: #9B9C9E;" class="ui blue button">Back</a>
-        <button class="ui red submit button" type="submit">Submit</button>
+        <a href="/" style="margin-top: 5px; background: #9B9C9E;" class="ui blue button">{% trans 'Back' %}</a>
+        <button class="ui red submit button" type="submit">{% trans 'Submit' %}</button>
     </form>
 
 {% endblock %}

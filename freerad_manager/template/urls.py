@@ -18,7 +18,7 @@ from .views import *
 
 
 urlpatterns = [
-    path('base', base_template, name='base_template'),
-    path('login', login_template, name='login_template'),
-    path('dashboard', dashboard_template, name='dashboard_template'),
+    #path('base', base_template, name='base_template'),
+    #path('login', login_template, name='login_template'),
+    #path('dashboard', dashboard_template, name='dashboard_template'),
 ]

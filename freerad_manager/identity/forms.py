@@ -13,7 +13,7 @@ _passwd_msg = _('The secret must contains lowercase'
                 ' and uppercase characters, '
                 ' number and at least one of these symbols:'
                 '! % - _ + = [ ] { } : , . ? < > ( ) ; '
-                'Example: This\Is_A.g00d/P4ssw0rd')
+                'Example: This.Is_A.g00d;P4ssw0rd')
 
 _regexp_pt = '[A-Za-z0-9\.\_\-\\\/]*'
 

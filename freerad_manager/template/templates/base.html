@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load i18n %}
 <head>
 	<title>{{ title | default_if_none:"Servizi di rete Ospiti di Ateneo - Universitá della Calabria"}}</title>
 	<meta name="description" content="Universitá della Calabria">
@@ -56,7 +57,7 @@
                         
                         <div style="padding: 33px;" id="main_page_content" class="main ui container">
                         {% block content %}
-                            <h1 class="ui dividing header">Benvenuto</h1>
+                            <h1 class="ui dividing header">{% trans 'Welcome' %}</h1>
                         {% endblock %}
                         </div>
                 </div>

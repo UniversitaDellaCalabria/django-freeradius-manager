@@ -132,10 +132,10 @@ they can see all the owned freeradius accounts and change passwords.
 
 If instead an user would like to be an __account manager__ 
 he should be configured in the system as `User.is_staff = True`.
-When one of the freeradius accounts owned by an __account manager__ accesses to the system he can only see the connections
+When one of the freeradius accounts owned by an __account manager__ accesses to the system this can only see the connections
 of the current freeradius account used to log in, and not all the other accounts owned by the
 parent identity (the account manager). That's a good strategy for managers that wants to handle
-many accounts, belonging to his identity, to their collaborators.
+many accounts, belonging to his identity, and share them to their collaborators.
 
 
 #### Credits
