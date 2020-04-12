@@ -1,0 +1,68 @@
+# This repository adheres to the publiccode.yml standard by including this
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+name: django-freeradius-manager
+softwareVersion: 'v0.4.0'
+releaseDate: '2020-04-12'
+url: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager'
+landingURL: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager'
+developmentStatus: stable
+softwareType: standalone/web
+roadmap: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager/issues'
+platforms:
+  - linux
+  - web
+usedBy:
+  - 'https://www.unical.it'
+categories:
+  - identity-management
+maintenance:
+  type: internal
+  contacts:
+    - name: Giuseppe De Marco
+      email: giuseppe.demarco@unical.it
+      affiliation: unical.it
+legal:
+  license: Apache-2.0
+  mainCopyrightOwner: Università della Calabria
+  authorsFile: AUTHORS
+intendedAudience:
+  scope:
+    - employment
+localisation:
+  localisationReady: True
+  availableLanguages:
+    - it
+    - en
+dependsOn:
+  open:
+    - name: MariaDB
+    - name: Python
+    - name: Django
+    - name: FreeRadius
+it:
+  countryExtensionVersion: '0.2'
+  conforme:
+    gdpr: true
+    misureMinimeSicurezza: true
+  riuso:
+    codiceIPA: unical
+description:
+  it:
+    features:
+        - Full localization support based on Django
+        - Identity management
+        - Expirable Freeeradius accounts
+        - Credentials provisioning through expirable Token sent via email
+        - Users can view all their connections and devices in a responsive Ajax DataTable
+        - Importable identities via a [CSV file](freerad_manager/static/template_accounts.csv). Only __first_name__, __last_name__ and __email__ are mandatory. 
+        - Many Freeradius Accounts to one identity
+    
+    documentation: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager/blob/master/README.md'
+    genericName: applicazione web
+    shortDescription: Manager Credenziali FreeRadius basato su RDBMS MariaDB
+    longDescription: >
+      Django Freeradius Manager is an admin interface to a freeradius 3 database with identity management and credentials provisioning.
+      This project is built on top of an indipendent fork of [django-freeradius](https://github.com/openwisp/django-freeradius).
