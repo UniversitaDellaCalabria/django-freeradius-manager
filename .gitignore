@@ -3,3 +3,4 @@
 *sdist*
 freerad_manager/db.sqlite3
 freerad_manager/settingslocal.py
+freerad_manager/static

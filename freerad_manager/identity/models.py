@@ -1,3 +1,4 @@
+import datetime
 import uuid
 
 from django.conf import settings
@@ -7,6 +8,10 @@ from model_utils.fields import AutoCreatedField, AutoLastModifiedField
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django_freeradius.models import RadiusCheck
+
+
+IDENTITY_TOKEN_EXPIRATION_DAYS = getattr(settings,
+                                         'IDENTITY_TOKEN_EXPIRATION_DAYS', 5)
 
 
 class TimeStampedModel(models.Model):
@@ -57,25 +62,31 @@ class Identity(TimeStampedModel):
     Provides registry
     """
     personal_title = models.CharField(max_length=12, blank=True, null=True)
-    name = models.CharField(max_length=256, blank=False, null=False, help_text=_('Nome o ragione sociale'))
+    name = models.CharField(max_length=256, blank=False, null=False,
+                            help_text=_('Nome o ragione sociale'))
     surname = models.CharField(max_length=135, blank=False, null=False)
     email = models.EmailField()
     telephone = models.CharField(max_length=135, blank=True, null=True)
-    common_name = models.CharField(max_length=256, blank=True, null=True, help_text=_('Nome o ragione sociale'))
+    common_name = models.CharField(max_length=256, blank=True, null=True,
+                                   help_text=_('Nome o ragione sociale'))
     country = CountryField(blank=True, help_text=_('nazionalità, cittadinanza'))
-    city = models.CharField(max_length=128, blank=True, null=True, help_text=_('residenza'))
-    codice_fiscale = models.CharField(max_length=16, blank=True, null=True, help_text='')
+    city = models.CharField(max_length=128, blank=True, null=True,
+                            help_text=_('residenza'))
+    codice_fiscale = models.CharField(max_length=16, blank=True,
+                                      null=True, help_text='')
     date_of_birth = models.DateField(blank=True, null=True)
-    place_of_birth = models.CharField(max_length=128, blank=True, null=True, help_text='')
-    description = models.TextField(max_length=1024, blank=True, null=True)
+    place_of_birth = models.CharField(max_length=128, blank=True,
+                                      null=True, help_text='')
+    description = models.TextField(max_length=1024, blank=True,
+                                   null=True)
 
     class Meta:
         ordering = ['created',]
         verbose_name_plural = _("Identità digitali")
 
     def create_token(self, radcheck):
+        validity_days = IDENTITY_TOKEN_EXPIRATION_DAYS
         _time_delta = datetime.timedelta(days=validity_days)
-        validity_days = settings.IDENTITY_TOKEN_EXPIRATION_DAYS
         identity_token = IdentityRadiusAccount.objects.filter(identity=identity,
                                                               radius_account=radcheck,
                                                               is_active=True,
@@ -163,7 +174,8 @@ class IdentityAddress(AbstractIdentityAddress, TimeStampedModel):
         return '%s %s' % (self.identity, self.primary)
 
 class AddressType(models.Model):
-    name = models.CharField(max_length=12, blank=False,  null=False,  help_text=_('tecnologia usata se email, telefono...'), unique=True)
+    name = models.CharField(max_length=12, blank=False,  null=False,
+                            help_text=_('tecnologia usata se email, telefono...'), unique=True)
     description = models.CharField(max_length=256, blank=True)
     def __str__(self):
         return '%s %s' % (self.name, self.description)
@@ -177,7 +189,8 @@ class IdentityDelivery(TimeStampedModel):
     type     = models.ForeignKey(AddressType,
                                  blank=False, null=False,
                                  on_delete=models.CASCADE)
-    value    = models.CharField(max_length=135, blank=False,  null=False,  help_text=_('mario.rossi@yahoo.it oppure 02 3467457, in base al tipo'))
+    value    = models.CharField(max_length=135, blank=False,  null=False,
+                                help_text=_('mario.rossi@yahoo.it oppure 02 3467457, in base al tipo'))
 
 class IdentityRole(IdentityGenericManyToOne):
     identity = models.ForeignKey(Identity, on_delete=models.CASCADE)
@@ -190,12 +203,19 @@ class IdentityRadiusAccount(models.Model):
     radius_account = models.ForeignKey(RadiusCheck, on_delete=models.CASCADE)
     token = models.UUIDField(unique=True, default=uuid.uuid4,
                              blank=True, null=True,
-                             help_text="https://guest.unical.it/identity/radius_renew/$token")
+                             help_text="{}/identity/radius_renew/$token".format(settings.BASE_URL))
     sent = models.BooleanField(default=False)
-    valid_until = models.DateTimeField(blank=False, null=False)
+    valid_until = models.DateTimeField(blank=True, null=True)
     used = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     created = AutoCreatedField(_('created'), editable=False)
+
+    def save(self, *args, **kwargs):
+        if not self.valid_until:
+            validity_days = IDENTITY_TOKEN_EXPIRATION_DAYS
+            _time_delta = datetime.timedelta(days=validity_days)
+            self.valid_until = timezone.now() + _time_delta
+        super(IdentityRadiusAccount, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('radius secret reset token')

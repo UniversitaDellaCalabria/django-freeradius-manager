@@ -30,7 +30,7 @@ def parse_date(value):
 
 @transaction.atomic
 def create_accounts_from_csv(csv_file='',
-                             realm='guest.unical.it',
+                             realm=settings.FQDN,
                              delimiter=',',
                              test=False,
                              debug=False):
@@ -99,13 +99,14 @@ def create_accounts_from_csv(csv_file='',
         cnt += 1
     return cnt
 
+
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('-csv', required=True,
                         help="csv file to import")
     parser.add_argument('-realm', required=False,
-                        default='guest.unical.it',
+                        default=settings.FQDN,
                         help="csv file to import")
     parser.add_argument('-test', required=False, action="store_true",
                         help="do not save imports, just test")
