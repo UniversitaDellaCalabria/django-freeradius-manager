@@ -9,7 +9,6 @@ This project is built on top of an indipendent fork of [django-freeradius](https
 ![User panel](gallery/2.png)
 ![Backend page](gallery/4.png)
 
-
 #### Features
 
 - Full localization support based on Django
