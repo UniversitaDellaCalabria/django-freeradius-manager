@@ -14,13 +14,22 @@ This project is built on top of an indipendent fork of [django-freeradius](https
 - Identity management
 - Expirable Freeeradius accounts
 - Credentials provisioning through expirable Token sent via email
-- Users can view all their connections and devices in an Ajax DataTable
-- importable identities via CSV files 
+- Users can view all their connections and devices in a responsive Ajax DataTable
+- Importable identities via CSV files 
+- Many Freeradius Accounts to one identity
+
+**An interesting use case**
+A user can have multiple freeradius accounts. Everytime he logs in the system using a freeradius account
+he can see all his freeradius accounts and change the passwords of these. If instead a user would like to be an __account manager__ 
+he should be configured in the system as `User.is_staff = True`, this way he can see the all the freeradius accounts belonging to him
+and change their password. When one of these freeradius accounts accesses to the system they can only see connection beloging
+to the used freeradius accounts, and not all, and change only his password.
+This can be a good strategy for managers that want to handle more accounts to their collaborators, belonging to his identity.
 
 
 #### Setup
 
-Install django things
+Install Django things
 ````
 apt install python3 python3-dev libmariadb-client python3-pip
 virtualenv -ppython3 env
@@ -28,7 +37,7 @@ source env/bin/activate
 pip3 install -r requirements.txt
 ````
 
-Create a Database for this project, put these credentials in `freerad_manager/settingslocal.py`
+Create a Database for this project and put these credentials in `freerad_manager/settingslocal.py`
 ````
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS radius; GRANT ALL ON radius.* TO radius@'%' IDENTIFIED BY '$RADIUS_PWD'; \
 flush privileges;"
@@ -116,7 +125,12 @@ sed -i 's|auth = no|auth = yes|g' $RADCONFD/radiusd.conf
 # ln -s /var/log/freeradius/radwtmp /usr/local/var/log/radius/
 ````
 
-See `README_freeradius.md` for a fine tuning od SQL queries.
+See `README_freeradius.md` for a fine tuning of SQL queries.
+
+Create a django freeradius account via Django admin backend, then test it
+````
+radtest -t mschap username password localhost 0 testing123
+````
 
 
 #### Credits

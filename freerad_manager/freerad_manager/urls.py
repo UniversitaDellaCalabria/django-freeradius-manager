@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
+from django.views.generic.base import RedirectView
 from django.urls import path, include
 from django.utils.translation import ugettext_lazy as _
 
@@ -25,6 +26,7 @@ admin.site.site_title  = _('Pannello di amministrazione')
 
 urlpatterns = [
     path(getattr(settings, 'ADMIN_PATH', 'admin/'), admin.site.urls),
+    path('', RedirectView.as_view(url=(getattr(settings, 'LOGIN_URL', '/')), permanent=False))
 ]
 
 if 'identity' in settings.INSTALLED_APPS:

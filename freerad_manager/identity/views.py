@@ -1,13 +1,15 @@
 import datetime
+import logging
 
 from django.conf import settings
 from django.contrib import auth
+from django.contrib.auth import (login as django_login,
+                                 logout as django_logout,
+                                 authenticate, get_user_model)
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.core.mail import send_mail, mail_admins
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django_freeradius.models import _encode_secret
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -29,8 +31,11 @@ from . forms import IdentityRadiusRenew, RadiusRenew, PasswordReset
 from . models import *
 
 
+logger = logging.getLogger(__name__)
+
+
 def login(request):
-    d = {}
+    d = dict()
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('identity:home'))
     elif request.POST:
@@ -42,39 +47,40 @@ def login(request):
                                               is_active=True,
                                               value=enc_passw
                                               ).first()
-        # print(radcheck, enc_passw)
         if not radcheck:
+            logger.info(_('Authentication failed from {}').format(username))
             d['error_msg'] = _('Authentication failed.<br>'
-                               #'Your account is expired or not found.<br>'
                                'Please contact HelpDesk support'
                                ' for assistance.')
             return render(request, 'login.html', context=d)
 
-        user = authenticate(username=username, password=password)
+        user = get_user_model().objects.filter(username=username).first()
         if not user:
-            # user.is_active = False
             ir = radcheck.identityradiusaccount_set.first()
             if not ir:
-                d['error_msg'] = _('Your account doesn\'t seem to have '
-                                   'a valid identity linked to it<br>'
-                                   'Please contact HelpDesk support'
-                                   ' for assistance.')
+                logger.info(_('Authentication not linked to any radius account {}').format(username))
+                d['error_msg'] = _("Your account doesn't seem to have "
+                                   "a valid identity.<br>"
+                                   "Please contact HelpDesk support"
+                                   " for assistance.")
                 return render(request, 'login.html', context=d)
             identity = ir.identity
-            get_user_model().objects.create(username=username,
-                                first_name=identity.name,
-                                last_name=identity.surname,
-                                email=identity.email,
-                                is_active=True)
-            user = authenticate(username=username, password=password)
-        login(request, user)
+            user = get_user_model().objects.create(username=username,
+                                                   first_name=identity.name,
+                                                   last_name=identity.surname,
+                                                   email=identity.email,
+                                                   is_active=True)
+
+        django_login(request, user)
         return HttpResponseRedirect(reverse('identity:home'))
-    return render(request, 'login.html', context=d)
+
+    elif request.method == 'GET':
+        return render(request, 'login.html', context=d)
 
 
 def logout(request):
     if request.user.is_authenticated:
-        logout(request)
+        django_logout(request)
     return HttpResponseRedirect(reverse('identity:login'))
 
 
@@ -82,10 +88,9 @@ def _get_radius_accounts(request, radcheck):
     # check for digital identity and additional accounts linked to it
     radius_accounts = []
     rr = radcheck.identityradiusaccount_set.first()
-    iid = Identity.objects.filter(pk=rr.identity.pk).first()
-    if iid:
-        for i in iid.identityradiusaccount_set.filter(radius_account__is_active=True,
-                                                      radius_account__valid_until__gte = timezone.now()):
+    if rr.identity:
+        for i in rr.identity.identityradiusaccount_set.filter(radius_account__is_active=True,
+                                                              radius_account__valid_until__gte = timezone.now()):
             if i.radius_account not in radius_accounts:
                 radius_accounts.append(i.radius_account)
     else:
@@ -123,13 +128,12 @@ def change_password(request, radcheck_id):
                                   valid_until__gte = timezone.now())
 
     identityradiusaccount = radiuscheck.identityradiusaccount_set.first()
-    if not identityradiusaccount: raise Http404()
+    if not identityradiusaccount:
+        raise Http404()
 
     available_accounts = [i[0].strip()
                           for i in identityradiusaccount.identity.identityradiusaccount_set.\
                           values_list('radius_account__username')]
-    # print(request.user.username, available_accounts)
-
     # check if the user is the real owner of the account!
     if request.user.username not in available_accounts:
         mail_admins('{} tried to change {} password!'.format(request.user.username, radiuscheck.username),
@@ -137,6 +141,7 @@ def change_password(request, radcheck_id):
             fail_silently=False,
             connection=None,
             html_message=None)
+        logger.info(_('{} tried to change password of another account').format(request.user.username))
         raise Http404(_('It seems that you tryed to change '
                         'an account different from your. '
                         'Your action has been notified to security staff. '
@@ -190,13 +195,14 @@ def reset_password(request):
             # fetch digital identity linked to the radius account
             identityradiusaccount = radcheck.identityradiusaccount_set.first()
             if not identityradiusaccount:
+                logger.info(_('{} is an Identity without any Radcheck Token').format(username))
                 # warning to admins, a radius account is still without identity!
-                mail_admins('guest.unical.it, missing identity',
-                            ('{} does not have any token actived. '
-                             'Check if he have a valid identity '
-                             'and at least a new or used token, '
-                             'or create it. Its mandatory to have one.'
-                             'Then send a reset request to him again.').format(username),
+                mail_admins(_('Missing identity'),
+                            _('{} does not have any token actived. '
+                              'Check if he have a valid identity '
+                              'and at least a new or used token, '
+                              'or create it. Its mandatory to have one.'
+                              'Then send a reset request to him again.').format(username),
                              fail_silently=False,
                              connection=None,
                              html_message=None)
@@ -222,8 +228,11 @@ def reset_password(request):
                                  auth_password=None,
                                  connection=None,
                                  html_message=None)
+                if not sent:
+                    logger.info('Mail send error to {} - '.format(username,
+                                                                  identity.email))
             else:
-                mail_admins('Wrong email submitted',
+                mail_admins(_('Wrong email submitted'),
                             settings.IDENTITY_MSG_WRONG_EMAIL.format(username,
                                                                      email,
                                                                      identity.email),
@@ -288,8 +297,10 @@ def renew_radius_password(request, token_value):
         form = IdentityRadiusRenew(request.POST)
         # Check if the form is valid:
         if form.is_valid():
-            if identity_radius.radius_account.username != request.POST['username']:
-                form.add_error('password_verifica', ValidationError(_('wrong username'), code='invalid'))
+            if identity_radius.radius_account.username != form.cleaned_data['username']:
+                form.add_error('password_verifica',
+                               ValidationError(_('wrong username'),
+                               code='invalid'))
                 return render(request, 'radius_account_renew.html', {'form': form})
             
             # process the data in form.cleaned_data as required
