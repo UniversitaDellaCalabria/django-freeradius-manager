@@ -32,11 +32,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # installed
+    'template',
+    # uncomment the following and comment the previous to use a customized template
+    #'template_custom',
+    
     'django_countries',
     'django_freeradius',
     'identity',
-    'template'
+    
 ]
 
 # Database
