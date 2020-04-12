@@ -42,6 +42,7 @@ class IdentityRadiusAccountForm(forms.ModelForm):
             # return instance.token
         # else:
             # return self.cleaned_data['token']
+
     class Meta:
         model = IdentityRadiusAccount
         fields = ('__all__')

@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.contrib import messages
 from django.contrib.admin import ModelAdmin
 from django.contrib.admin.actions import delete_selected
+from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
@@ -83,6 +85,13 @@ class RadiusCheckAdmin(TimeStampedEditableAdmin):
     actions = ModelAdmin.actions + [disable_action, enable_action]
 
     def save_model(self, request, obj, form, change):
+        if get_user_model().objects.filter(username=obj.username):
+            messages.set_level(request, messages.ERROR)
+            _msg = _('{} username collides with a pre-existent system User').format(obj.username)
+            messages.add_message(request, messages.ERROR,
+                                 _msg)
+            return
+            
         if form.data.get('new_value'):
             obj.value = _encode_secret(form.data['attribute'],
                                        form.data.get('new_value'))

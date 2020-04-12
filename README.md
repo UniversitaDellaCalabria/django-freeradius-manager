@@ -128,10 +128,14 @@ radtest -t mschap username password localhost 0 testing123
 #### An interesting use case
 
 Users can have multiple freeradius accounts. Everytime they log in the system using a freeradius account
-they can see all the owned freeradius accounts and change their passwords. If instead an user would like to be an __account manager__ 
-he should be configured in the system as `User.is_staff = True`. When one of the freeradius accounts owned by him accesses to the system they can only see the connections beloging
-to the used freeradius account used to log in, and not all, and change only that password.
-That's a good strategy for managers that wants to handle more accounts to their collaborators, belonging to his identity.
+they can see all the owned freeradius accounts and change passwords.
+
+If instead an user would like to be an __account manager__ 
+he should be configured in the system as `User.is_staff = True`.
+When one of the freeradius accounts owned by an __account manager__ accesses to the system he can only see the connections
+of the current freeradius account used to log in, and not all the other accounts owned by the
+parent identity (the account manager). That's a good strategy for managers that wants to handle
+many accounts, belonging to his identity, to their collaborators.
 
 
 #### Credits
