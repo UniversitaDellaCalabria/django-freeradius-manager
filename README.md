@@ -6,7 +6,9 @@ This project is built on top of an indipendent fork of [django-freeradius](https
 
 
 ![Landing page](gallery/1.png)
+![User panel](gallery/2.png)
 ![Backend page](gallery/4.png)
+
 
 #### Features
 
@@ -15,16 +17,8 @@ This project is built on top of an indipendent fork of [django-freeradius](https
 - Expirable Freeeradius accounts
 - Credentials provisioning through expirable Token sent via email
 - Users can view all their connections and devices in a responsive Ajax DataTable
-- Importable identities via CSV files 
+- Importable identities via a [CSV file](freerad_manager/static/template_accounts.csv). Only __first_name__, __last_name__ and __email__ are mandatory. 
 - Many Freeradius Accounts to one identity
-
-**An interesting use case**
-A user can have multiple freeradius accounts. Everytime he logs in the system using a freeradius account
-he can see all his freeradius accounts and change the passwords of these. If instead a user would like to be an __account manager__ 
-he should be configured in the system as `User.is_staff = True`, this way he can see the all the freeradius accounts belonging to him
-and change their password. When one of these freeradius accounts accesses to the system they can only see connection beloging
-to the used freeradius accounts, and not all, and change only his password.
-This can be a good strategy for managers that want to handle more accounts to their collaborators, belonging to his identity.
 
 
 #### Setup
@@ -61,7 +55,7 @@ RADIUS_PORT = 1812
 RADIUS_SECRET = 'radiussecret'
 ````
 
-Freeradius setup
+Freeradius and RDBMS installation
 ````
 apt install freeradius freeradius-mysql mariadb-server
 ````
@@ -131,6 +125,15 @@ Create a django freeradius account via Django admin backend, then test it
 ````
 radtest -t mschap username password localhost 0 testing123
 ````
+
+#### An interesting use case
+
+A user can have multiple freeradius accounts. Everytime he logs in the system using a freeradius account
+he can see all his freeradius accounts and change the passwords of these. If instead a user would like to be an __account manager__ 
+he should be configured in the system as `User.is_staff = True`, this way he can see the all the freeradius accounts belonging to him
+and change their password. When one of these freeradius accounts accesses to the system they can only see connection beloging
+to the used freeradius accounts, and not all, and change only this password.
+This can be a good strategy for managers that want to handle more accounts to their collaborators, belonging to his identity.
 
 
 #### Credits
