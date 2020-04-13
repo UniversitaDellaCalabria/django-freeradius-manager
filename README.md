@@ -1,4 +1,4 @@
-# Django Freeradius Manager
+Django Freeradius Manager
 ---------------------------
 
 Django Freeradius Manager is an admin interface to a freeradius 3 database with identity management and credentials provisioning.
@@ -8,10 +8,10 @@ Description
 -----------
 
 Freeradius definitions can be managed directly using the Django Admin Model Backend, as it come from [django-freeradius](https://github.com/openwisp/django-freeradius).
-The Identity Provisioning procedures are handled in the Identity App, for each Digital Identity we can add one or more provisioning token, linked to one ore more RadiusCheck accounts.
-An Admin action can send via email the activation token to the users, through which these can enable their acount and configure their passwords.
+The Identity Provisioning procedures are handled in the Identity App, for each Digital Identity we can add one or more provisioning tokens, linked to one ore more RadiusCheck accounts.
+An Admin action can send via email the activation token to the users, through which these can enable their accounts and configure their passwords.
 
-All the parameters and configuration of these application cans be found in the `settings.py` file in the app folder, these can be redefined (overloaded) in the global `settingslocal.py` file.
+All the parameters and configuration of these applications can be found in the `settings.py` file in the app folder, these can be also redefined (overloaded) in the global `settingslocal.py` file.
 
 
 ![Landing page](gallery/1.png)
