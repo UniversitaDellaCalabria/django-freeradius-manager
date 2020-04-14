@@ -50,7 +50,7 @@ pip3 install -r requirements.txt
 
 Create a Database for this project and put these credentials in `freerad_manager/settingslocal.py`
 ````
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS radius; GRANT ALL ON radius.* TO radius@'%' IDENTIFIED BY '$RADIUS_PWD'; \
+sudo mysql -u root -e "CREATE DATABASE IF NOT EXISTS radius; GRANT ALL ON radius.* TO radius@'%' IDENTIFIED BY '$RADIUS_PWD'; \
 flush privileges;"
 ````
 
