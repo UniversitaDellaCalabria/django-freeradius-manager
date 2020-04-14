@@ -174,7 +174,7 @@ class RadiusPostAuthAdmin(ModelAdmin):
     readonly_fields = ('view_radcheck',)
 
     def view_radcheck(self, obj):
-        radcheck = models.RadiusCheck.objects.filter(username=obj.username).first()
+        radcheck = RadiusCheck.objects.filter(username=obj.username).first()
         if not radcheck: return ''
         radcheck_url = reverse('admin:django_freeradius_radiuscheck_change',
                                args=(radcheck.pk,))
