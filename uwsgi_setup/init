@@ -1,0 +1,43 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          django_freeradius_manager
+# Required-Start:    mysql nginx
+# Required-Stop:
+# Should-Start:
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: Create dynamic part of /etc/motd
+# Description:       /etc/motd is user-editable and static.  This script
+#                    creates the initial dynamic part, by default the
+#                    output of uname, and stores it in /var/run/motd.dynamic.
+#                    Both parts are output by pam_motd.
+### END INIT INFO
+
+# and then
+# update-rc.d django_freeradius_manager defaults
+# update-rc.d django_freeradius_manager enable
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+APPNAME="django_freeradius_manager"
+#DEBUG=""
+COMMAND="uwsgi --ini /opt/$APPNAME/freerad_manager/uwsgi_setup/uwsgi.ini &"
+
+case "$1" in
+  start)
+	su -l www-data -c "source /opt/$APPNAME/bin/activate && $COMMAND"
+	;;
+  stop)
+	kill -KILL  $(ps ax | grep $APPNAME | awk -F' ' {'print $1'} | xargs echo)
+	;;
+  restart)
+	$0 stop
+	sleep 1
+        $0 start
+	;;
+  *)
+	echo "Usage: motd [start|stop|status]" >&2
+	exit 1
+	;;
+esac
+
+exit 0

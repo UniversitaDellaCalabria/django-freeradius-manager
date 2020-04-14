@@ -1,0 +1,38 @@
+# the upstream component nginx needs to connect to
+upstream django_freeradius_manager {
+    server 127.0.0.1:3000; 
+}
+
+# configuration of the server
+server {
+    listen      80;
+    server_name that.host.org;
+    charset     utf-8;
+
+    # return 301 https://that.host.org/;
+
+    access_log /var/log/nginx/that.host.org.access.log;
+    error_log  /var/log/nginx/that.host.org.log error;
+
+    # max upload size
+    client_max_body_size 5M;   # adjust to taste
+
+    # Django media
+    location /statics  {
+        alias /opt/django_freeradius_manager/freerad_manager/static;
+        autoindex off;
+    }
+
+    location /static {
+        alias /opt/django_freeradius_manager/freerad_manager/static; # your Django project's static files - amend as required
+        autoindex off;
+    }
+
+
+    # Finally, send all non-media requests to the Django server.
+    location / {
+        uwsgi_pass  django_freeradius_manager;
+        uwsgi_param HTTP_X_FORWARDED_PROTOCOL https;
+        include     /opt/django_freeradius_manager/freerad_manager/uwsgi_setup/uwsgi_params; # the uwsgi_params file you installed
+    }
+}
