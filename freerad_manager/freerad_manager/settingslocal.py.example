@@ -55,6 +55,9 @@ DATABASES = {
         'USER': 'radius',
         'PASSWORD': 'radiussecret',
         'PORT': '',
+        'OPTIONS': {
+            'charset': 'utf8',
+        },
     }
 }
 
