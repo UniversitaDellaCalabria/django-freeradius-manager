@@ -40,8 +40,11 @@ Install Django things
 apt install python3 python3-dev libmariadbclient-dev python3-pip
 git clone https://github.com/UniversitaDellaCalabria/django-freeradius-manager.git
 cd django-freeradius-manager
+
+pip3 install virtualenv
 virtualenv -ppython3 env
 source env/bin/activate
+
 pip3 install -r requirements.txt
 ````
 
