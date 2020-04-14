@@ -24,7 +24,7 @@ COMMAND="uwsgi --ini /opt/$APPNAME/freerad_manager/uwsgi_setup/uwsgi.ini &"
 
 case "$1" in
   start)
-	su -l www-data -c "source /opt/$APPNAME/freerad_manager/env/bin/activate && $COMMAND"
+	su -l www-data -c "source /opt/$APPNAME/env/bin/activate && $COMMAND"
 	;;
   stop)
 	kill -KILL  $(ps ax | grep $APPNAME | awk -F' ' {'print $1'} | xargs echo)
