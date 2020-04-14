@@ -19,12 +19,12 @@ server {
 
     # Django media
     location /statics  {
-        alias /opt/django_freeradius_manager/freerad_manager/static;
+        alias /opt/django-freeradius-manager/freerad_manager/static;
         autoindex off;
     }
 
     location /static {
-        alias /opt/django_freeradius_manager/freerad_manager/static; # your Django project's static files - amend as required
+        alias /opt/django-freeradius-manager/freerad_manager/static; # your Django project's static files - amend as required
         autoindex off;
     }
 
@@ -33,6 +33,6 @@ server {
     location / {
         uwsgi_pass  django_freeradius_manager;
         uwsgi_param HTTP_X_FORWARDED_PROTOCOL https;
-        include     /opt/django_freeradius_manager/freerad_manager/uwsgi_setup/uwsgi_params; # the uwsgi_params file you installed
+        include     /opt/django-freeradius-manager/freerad_manager/uwsgi_setup/uwsgi_params; # the uwsgi_params file you installed
     }
 }
