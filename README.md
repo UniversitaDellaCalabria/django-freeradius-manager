@@ -30,6 +30,11 @@ All the parameters and configuration of these applications can be found in the `
 
 #### Setup
 
+Freeradius and RDBMS installation
+````
+apt install freeradius freeradius-mysql mariadb-server
+````
+
 Install Django things
 ````
 apt install python3 python3-dev libmariadb-client python3-pip
@@ -62,9 +67,14 @@ RADIUS_PORT = 1812
 RADIUS_SECRET = 'radiussecret'
 ````
 
-Freeradius and RDBMS installation
+Create Django models
+--------------------
+
 ````
-apt install freeradius freeradius-mysql mariadb-server
+cd freerad_manager
+./manage.py migrate
+./manage.py createsuperuser
+./manage.py runserver
 ````
 
 Configure Freeradius
