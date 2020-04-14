@@ -37,7 +37,7 @@ apt install freeradius freeradius-mysql mariadb-server
 
 Install Django things
 ````
-apt install python3 python3-dev libmariadb-client python3-pip
+apt install python3 python3-dev libmariadbclient-dev python3-pip
 virtualenv -ppython3 env
 source env/bin/activate
 pip3 install -r requirements.txt
