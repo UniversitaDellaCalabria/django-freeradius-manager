@@ -66,10 +66,6 @@ DATABASES = {
         'PORT': '',
     }
 }
-
-RADIUS_SERVER = '10.0.3.85'
-RADIUS_PORT = 1812
-RADIUS_SECRET = 'radiussecret'
 ````
 
 Create Django models
@@ -139,6 +135,9 @@ sed -i 's|auth = no|auth = yes|g' $RADCONFD/radiusd.conf
 # radlast command workaround (.f option doesn't still work)
 # mkdir -p /usr/local/var/log/radius/
 # ln -s /var/log/freeradius/radwtmp /usr/local/var/log/radius/
+
+systemctl enable freeradius
+systemctl start freeradius
 ````
 
 See `README_freeradius.md` for a fine tuning of SQL queries.
@@ -164,7 +163,7 @@ many accounts, belonging to his identity, and share them to their collaborators.
 #### Credits
 
 - [OpenWISP](http://openwisp.org/) community
-- CNR IMAA guys
+- Francesco Izzi (CNR IMAA)
 
 
 #### Authors
