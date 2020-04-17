@@ -169,3 +169,8 @@ many accounts, belonging to his identity, and share them to their collaborators.
 #### Authors
 
 - Giuseppe De Marco <giuseppe.demarco@unical.it>
+
+
+#### Additional Resources
+
+- [Assignign VLANID](https://linuskarlsson.se/blog/radius-authentication-and-dynamic-vlan-assignment-for-wpa2-enterprise-using-sqlite-in-freeradius/) 
