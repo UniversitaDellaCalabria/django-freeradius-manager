@@ -36,8 +36,13 @@ class TestIdentity(TestCase):
         assert 'Authentication failed' not in response.content.decode()
 
     def test_token(self):
+        if self.identity.identityradiusaccount_set.first().is_active:
+            token = self.identity.identityradiusaccount_set.first().token
+        else:
+            token = self.identity.create_token(self.radcheck).token
+        
         _url = reverse('identity:renew-radius-password',
-                       kwargs={'token_value': self.identity.identityradiusaccount_set.first().token})
+                       kwargs={'token_value': token})
         response = self.client.get(_url, follow=True)
         assert 'Renew Password' in response.content.decode()
 
@@ -48,4 +53,26 @@ class TestIdentity(TestCase):
                     password='IngolaBus34-',
                     password_verifica='IngolaBus34-')
         response_2 = self.client.post(_url, data=data,follow=True)
-        assert 'succesfully renewed' in response.content.decode()
+        assert self.identity.identityradiusaccount_set.first().is_active is False
+        assert 'succesfully renewed' in response_2.content.decode()
+
+    def test_forgot_password(self):
+        _url = reverse('identity:reset_password')
+        response = self.client.get(_url, follow=True)
+        assert 'sent to you' in response.content.decode()
+
+        # disable preesistent token to avoid reuse of these
+        # self.identity.identityradiusaccount_set.all().update(is_active=False)
+        
+        data = dict(username=self.radcheck.username,
+                    email=self.identity.email)
+        response = self.client.post(_url, data=data, follow=True)
+        assert 'sent to you' in response.content.decode()
+
+        # a brand new token should be there
+        idrad = self.identity.identityradiusaccount_set.first()  
+        token = idrad.token
+        _url = reverse('identity:renew-radius-password',
+                       kwargs={'token_value': token})
+        response = self.client.get(_url, follow=True)
+        assert 'Renew Password' in response.content.decode()

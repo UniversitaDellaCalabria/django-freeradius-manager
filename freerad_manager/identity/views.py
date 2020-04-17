@@ -157,8 +157,12 @@ def change_password(request, radcheck_id):
             # process the data in form.cleaned_data as required
             # encode value in NT-Password format
             radiuscheck.value = encode_secret(settings.FREERADIUS_DEFAULT_SECRET_FORMAT,
-                                               form.cleaned_data['password'])
+                                              form.cleaned_data['password'])
             radiuscheck.save()
+            # disable tokens
+            tokens = radiuscheck.identityradiusaccount_set.filter(radcheck=radiuscheck,
+                                                                  is_active=True)
+            tokens.update(is_active=False)
             return render(request, 'radius_account_renewed.html')
         else:
             d = {'radius_account': radiuscheck.username,
