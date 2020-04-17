@@ -160,6 +160,19 @@ parent identity (the account manager). That's a good strategy for managers that 
 many accounts, belonging to his identity, and share them to their collaborators.
 
 
+#### Tests
+
+````
+pip3 install -r requirements-dev.txt
+cd freerad_manager
+
+# run
+./manage.py test  --settings=tests.settings
+#or
+DJANGO_SETTINGS_MODULE=tests.settings pytest ./tests/test_01.py -x
+````
+
+
 #### Credits
 
 - [OpenWISP](http://openwisp.org/) community

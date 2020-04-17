@@ -1,6 +1,24 @@
 Freeradius customization
 ------------------------
 
+Permit only expirable Rad Checks
+--------------------------------
+
+Django-Freeradius provides the possibility to extend the freeradius query in order to introduce is_active and valid_until checks.
+
+An example using MySQL is:
+
+````
+# /etc/freeradius/mods-config/sql/main/mysql/queries.conf
+authorize_check_query = "SELECT id, username, attribute, value, op \
+                         FROM ${authcheck_table} \
+                         WHERE username = '%{SQL-User-Name}' \
+                         AND is_active = TRUE \
+                         AND valid_until >= CURDATE() \
+                         ORDER BY id"
+````
+
+
 Post-Auth
 ---------
 
@@ -44,26 +62,6 @@ post-auth {
                         '%{Called-Station-Id}' \
                         )"
 }
-
-# TODO extends schema to handle the following attributes
-# Operator-Name, eduroam-SP-Country, Chargeable-User-Identity, NAS-Identifier
-# vedi: https://www.eventi.garr.it/it/ws18/home/materiali-conferenza-2017/presentazioni-3/310-ws2018-slide-albrizio/file
-
-````
-
-Modificare il model così:
-
-````
-            outerid text,
-            innerid text NOT NULL,
-            ChargeableUserIdentity text,
-            reply text,
-            callingstationid text,
-            calledstationid text,
-            eduroamSPCountry text,
-            OperatorName text,
-            NASIdentifier text
-````
 
 
 In /etc/freeradius/3.0/mods-config/sql/main/mysql/queries.conf

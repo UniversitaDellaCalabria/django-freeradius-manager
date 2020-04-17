@@ -4,14 +4,13 @@ from django.contrib.admin import ModelAdmin
 from django.contrib.admin.actions import delete_selected
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils.safestring import mark_safe
 
 from . admin_actions import disable_action, enable_action
 from . admin_filters import DuplicateListFilter, ExpiredListFilter
 from . forms import RadiusCheckAdminForm, NasModelForm
 from . models import *
-from . models import _encode_secret
 
 
 class TimeStampedEditableAdmin(ModelAdmin):
@@ -93,8 +92,8 @@ class RadiusCheckAdmin(TimeStampedEditableAdmin):
             return
             
         if form.data.get('new_value'):
-            obj.value = _encode_secret(form.data['attribute'],
-                                       form.data.get('new_value'))
+            obj.value = encode_secret(form.data['attribute'],
+                                      form.data.get('new_value'))
         obj.save()
 
     def get_fields(self, request, obj=None):

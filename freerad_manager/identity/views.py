@@ -11,7 +11,7 @@ from django.core.mail import send_mail, mail_admins
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from django.http import (HttpResponse,
                          Http404,
@@ -22,7 +22,7 @@ from django.http import (HttpResponse,
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from django_freeradius.models import (_encode_secret,
+from django_freeradius.models import (encode_secret,
                                       RadiusCheck,
                                       RadiusPostAuth)
 
@@ -41,7 +41,7 @@ def login(request):
     elif request.POST:
         username = request.POST['username'].strip()
         password = request.POST['password'].strip()
-        enc_passw = _encode_secret(settings.DEFAULT_SECRET_FORMAT, password)
+        enc_passw = encode_secret(settings.FREERADIUS_DEFAULT_SECRET_FORMAT, password)
         radcheck = RadiusCheck.objects.filter(username=username,
                                               valid_until__gte=timezone.now(),
                                               is_active=True,
@@ -156,7 +156,7 @@ def change_password(request, radcheck_id):
         if form.is_valid():
             # process the data in form.cleaned_data as required
             # encode value in NT-Password format
-            radiuscheck.value = _encode_secret(settings.DEFAULT_SECRET_FORMAT,
+            radiuscheck.value = encode_secret(settings.FREERADIUS_DEFAULT_SECRET_FORMAT,
                                                form.cleaned_data['password'])
             radiuscheck.save()
             return render(request, 'radius_account_renewed.html')
@@ -305,8 +305,8 @@ def renew_radius_password(request, token_value):
             
             # process the data in form.cleaned_data as required
             # encode value in NT-Password format
-            identity_radius.radius_account.value = _encode_secret(settings.DEFAULT_SECRET_FORMAT,
-                                                                  form.cleaned_data['password'])
+            identity_radius.radius_account.value = encode_secret(settings.FREERADIUS_DEFAULT_SECRET_FORMAT,
+                                                                 form.cleaned_data['password'])
             identity_radius.radius_account.save()
             
             identity_radius.used = timezone.now()

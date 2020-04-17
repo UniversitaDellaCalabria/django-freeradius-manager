@@ -7,10 +7,7 @@ from django.core.files import File
 from django.core.validators import validate_email
 from django.template.loader import get_template
 from django.utils.crypto import get_random_string
-from django.utils.translation import ugettext_lazy as _
-from xhtml2pdf import pisa
-
-from django_freeradius.settings import BATCH_PDF_TEMPLATE
+from django.utils.translation import gettext_lazy as _
 
 
 def find_available_username(username, users_list, prefix=False):
@@ -57,12 +54,3 @@ def prefix_generate_users(prefix, n, password_length):
         users_list.append(u)
         user_password.append([username, password])
     return users_list, user_password
-
-
-def generate_pdf(prefix, data):
-    template = get_template(BATCH_PDF_TEMPLATE)
-    html = template.render(data)
-    f = open('{}.pdf'.format(prefix), 'w+b')
-    pisa.CreatePDF(html.encode('utf-8'), dest=f, encoding='utf-8')
-    f.seek(0)
-    return File(f)

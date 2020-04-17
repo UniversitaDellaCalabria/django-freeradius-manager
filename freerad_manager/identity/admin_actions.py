@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.core.mail import send_mail, mail_admins
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 from . models import *
 

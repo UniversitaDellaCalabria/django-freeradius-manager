@@ -1,8 +1,5 @@
 django>3,<4
 django_countries
 mysqlclient
-django-model-utils
 swapper
-# nt hashing dep
 passlib
-dateutils

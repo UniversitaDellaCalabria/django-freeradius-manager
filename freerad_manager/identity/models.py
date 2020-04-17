@@ -4,8 +4,7 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django_countries.fields import CountryField
-from model_utils.fields import AutoCreatedField, AutoLastModifiedField
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django_freeradius.models import RadiusCheck
 
@@ -18,8 +17,10 @@ class TimeStampedModel(models.Model):
     """
     self-updating created and modified fields
     """
-    created = AutoCreatedField(_('created'), editable=False)
-    modified = AutoLastModifiedField(_('modified'), editable=False)
+    created = models.DateTimeField(_('created'),
+                                   auto_now_add=True, editable=False)
+    modified = models.DateTimeField(_('modified'),
+                                    auto_now=True, editable=False)
 
     class Meta:
         abstract = True
@@ -31,7 +32,7 @@ class IdentityGenericManyToOne(models.Model):
     class Meta:
         abstract = True
 
-# TODO tradurre fields
+
 class AbstractIdentityAddress(models.Model):
     address = models.CharField(_('Indirizzo'),max_length=150, blank=True, null=True)
     locality_name = models.CharField(_('Località'),max_length=135, blank=True, null=True)
@@ -87,12 +88,12 @@ class Identity(TimeStampedModel):
     def create_token(self, radcheck):
         validity_days = IDENTITY_TOKEN_EXPIRATION_DAYS
         _time_delta = datetime.timedelta(days=validity_days)
-        identity_token = IdentityRadiusAccount.objects.filter(identity=identity,
+        identity_token = IdentityRadiusAccount.objects.filter(identity=self,
                                                               radius_account=radcheck,
                                                               is_active=True,
                                                               valid_until__gte=timezone.now()).last()
         if not identity_token:
-            identity_token = IdentityRadiusAccount.objects.create(identity=identity,
+            identity_token = IdentityRadiusAccount.objects.create(identity=self,
                                                    radius_account=radcheck,
                                                    is_active=True,
                                                    valid_until=timezone.now()+_time_delta)
@@ -173,12 +174,14 @@ class IdentityAddress(AbstractIdentityAddress, TimeStampedModel):
     def __str__(self):
         return '%s %s' % (self.identity, self.primary)
 
+
 class AddressType(models.Model):
     name = models.CharField(max_length=12, blank=False,  null=False,
                             help_text=_('tecnologia usata se email, telefono...'), unique=True)
     description = models.CharField(max_length=256, blank=True)
     def __str__(self):
         return '%s %s' % (self.name, self.description)
+
 
 class IdentityDelivery(TimeStampedModel):
     """
@@ -192,11 +195,14 @@ class IdentityDelivery(TimeStampedModel):
     value    = models.CharField(max_length=135, blank=False,  null=False,
                                 help_text=_('mario.rossi@yahoo.it oppure 02 3467457, in base al tipo'))
 
+
 class IdentityRole(IdentityGenericManyToOne):
     identity = models.ForeignKey(Identity, on_delete=models.CASCADE)
 
+
 class IdentityAffilitation(IdentityGenericManyToOne):
     identity = models.ForeignKey(Identity, on_delete=models.CASCADE)
+
 
 class IdentityRadiusAccount(models.Model):
     identity = models.ForeignKey(Identity, on_delete=models.CASCADE)
@@ -208,7 +214,7 @@ class IdentityRadiusAccount(models.Model):
     valid_until = models.DateTimeField(blank=True, null=True)
     used = models.DateTimeField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
-    created = AutoCreatedField(_('created'), editable=False)
+    created = models.DateTimeField(_('created'), auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if not self.valid_until:

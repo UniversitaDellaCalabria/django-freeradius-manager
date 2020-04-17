@@ -12,8 +12,7 @@ from django.db import models
 from django.db.models import Count
 from django.utils.crypto import get_random_string
 from django.utils.timezone import now
-from django.utils.translation import ugettext_lazy as _
-from model_utils.fields import AutoCreatedField, AutoLastModifiedField
+from django.utils.translation import gettext_lazy as _
 from passlib.hash import lmhash, nthash, sha512_crypt
 
 
@@ -100,19 +99,20 @@ STRATEGIES = (
 )
 
 
-class TimeStampedEditableModel(models.Model):
+class TimeStampedModel(models.Model):
     """
-    An  base class model that provides self-updating
-    ``created`` and ``modified`` fields.
+    self-updating created and modified fields
     """
-    created = AutoCreatedField(_('created'), editable=True)
-    modified = AutoLastModifiedField(_('modified'), editable=True)
+    created = models.DateTimeField(_('created'),
+                                   auto_now_add=True, editable=False)
+    modified = models.DateTimeField(_('modified'),
+                                    auto_now=True, editable=False)
 
     class Meta:
         abstract = True
 
 
-class RadiusGroup(TimeStampedEditableModel):
+class RadiusGroup(TimeStampedModel):
     id = models.UUIDField(primary_key=True, db_column='id')
     groupname = models.CharField(verbose_name=_('group name'),
                                  max_length=255,
@@ -133,7 +133,7 @@ class RadiusGroup(TimeStampedEditableModel):
         return self.groupname
 
 
-class RadiusGroupUsers(TimeStampedEditableModel):
+class RadiusGroupUsers(TimeStampedModel):
     id = models.UUIDField(primary_key=True,
                           db_column='id')
     username = models.CharField(verbose_name=_('username'),
@@ -160,7 +160,7 @@ class RadiusGroupUsers(TimeStampedEditableModel):
         return self.username
 
 
-class RadiusReply(TimeStampedEditableModel):
+class RadiusReply(TimeStampedModel):
     username = models.CharField(verbose_name=_('username'),
                                 max_length=64,
                                 db_index=True)
@@ -200,7 +200,8 @@ class RadiusCheckQueryset(models.query.QuerySet):
         return self.filter(valid_until__gte=now())
 
 
-def _encode_secret(attribute, new_value=None):
+def encode_secret(attribute=settings.FREERADIUS_DEFAULT_SECRET_FORMAT,
+                  new_value=None):
     if attribute == 'Cleartext-Password':
         password_renewed = new_value
     elif attribute == 'NT-Password':
@@ -234,13 +235,13 @@ class RadiusCheckManager(models.Manager):
 
     def create(self, *args, **kwargs):
         if 'new_value' in kwargs:
-            kwargs['value'] = _encode_secret(kwargs['attribute'],
-                                             kwargs['new_value'])
+            kwargs['value'] = encode_secret(kwargs['attribute'],
+                                            kwargs['new_value'])
             del(kwargs['new_value'])
         return super(RadiusCheckManager, self).create(*args, **kwargs)
 
 
-class RadiusCheck(TimeStampedEditableModel):
+class RadiusCheck(TimeStampedModel):
     username = models.CharField(verbose_name=_('username'),
                                 max_length=64,
                                 unique=True)
@@ -253,9 +254,9 @@ class RadiusCheck(TimeStampedEditableModel):
                                  max_length=64,
                                  choices=[(i, i) for i in RADCHECK_PASSWD_TYPE
                                           if i not in
-                                          settings.DISABLED_SECRET_FORMATS],
+                                          settings.FREERADIUS_DISABLED_SECRET_FORMATS],
                                  blank=True,
-                                 default=settings.DEFAULT_SECRET_FORMAT)
+                                 default=settings.FREERADIUS_DEFAULT_SECRET_FORMAT)
     # additional fields to enable more granular checks
     is_active = models.BooleanField(default=True)
     valid_until = models.DateTimeField(null=True, blank=True)
@@ -403,7 +404,7 @@ class RadiusAccounting(models.Model):
         return self.unique_id
 
 
-class Nas(TimeStampedEditableModel):
+class Nas(TimeStampedModel):
     name = models.CharField(verbose_name=_('name'),
                             max_length=128,
                             help_text=_('NAS Name (or IP address)'),
@@ -443,7 +444,7 @@ class Nas(TimeStampedEditableModel):
         return self.name
 
 
-class RadiusUserGroup(TimeStampedEditableModel):
+class RadiusUserGroup(TimeStampedModel):
     username = models.CharField(verbose_name=_('username'),
                                 max_length=64,
                                 db_index=True)
@@ -460,7 +461,7 @@ class RadiusUserGroup(TimeStampedEditableModel):
         return str(self.username)
 
 
-class RadiusGroupReply(TimeStampedEditableModel):
+class RadiusGroupReply(TimeStampedModel):
     groupname = models.CharField(verbose_name=_('group name'),
                                  max_length=64,
                                  db_index=True)
@@ -480,7 +481,7 @@ class RadiusGroupReply(TimeStampedEditableModel):
         return str(self.groupname)
 
 
-class RadiusGroupCheck(TimeStampedEditableModel):
+class RadiusGroupCheck(TimeStampedModel):
     groupname = models.CharField(verbose_name=_('group name'),
                                  max_length=64,
                                  db_index=True)
@@ -503,7 +504,6 @@ class RadiusGroupCheck(TimeStampedEditableModel):
 class RadiusPostAuth(models.Model):
     username = models.CharField(verbose_name=_('username'),
                                 max_length=64)
-    # this will be not filled by freeradius for GDPR
     password = models.CharField(verbose_name=_('password'),
                                 max_length=64,
                                 db_column='pass',

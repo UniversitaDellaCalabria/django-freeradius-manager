@@ -5,8 +5,7 @@ from django.conf import settings
 from django.core.validators import RegexValidator
 from django.forms.utils import ErrorList
 from django.core.exceptions import ValidationError
-from django_freeradius.settings import RADCHECK_SECRET_VALIDATORS
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 _passwd_msg = _('The secret must contains lowercase'
@@ -40,7 +39,7 @@ class RadiusRenew(forms.Form):
             self._errors['password'] = ErrorList([_("Your passwords do not match")])
             return self._errors
         
-        for regexp in RADCHECK_SECRET_VALIDATORS.values():
+        for regexp in settings.FREERADIUS_RADCHECK_SECRET_VALIDATORS.values():
             found = re.findall(regexp, password1)
             if not found:
                 raise ValidationError(_passwd_msg)
@@ -61,7 +60,7 @@ class IdentityRadiusRenew(RadiusRenew, IdentityRadiusBaseRenew):
 
 class PasswordReset(forms.Form):
     username = forms.CharField(label='Username', max_length=64, 
-                               help_text="example: username@{}".format(settings.FQDN))
+                               help_text="example: username@{}".format(getattr(settings, 'FQDN', 'youhost.org')))
     email = forms.EmailField(label='Email', max_length=64, 
                                help_text=_("example: name.surname@thatho.st "
                                            "or google or yahoo or msn or whatever"))

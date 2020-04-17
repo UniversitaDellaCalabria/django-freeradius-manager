@@ -17,7 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.views.generic.base import RedirectView
 from django.urls import path, include
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 admin.site.site_header = _('Amministrazione')
