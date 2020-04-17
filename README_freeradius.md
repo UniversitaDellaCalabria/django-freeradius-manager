@@ -62,7 +62,7 @@ post-auth {
                         '%{Called-Station-Id}' \
                         )"
 }
-
+````
 
 In /etc/freeradius/3.0/mods-config/sql/main/mysql/queries.conf
 ````
