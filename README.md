@@ -179,6 +179,10 @@ cd freerad_manager
 DJANGO_SETTINGS_MODULE=tests.settings pytest ./tests/test_01.py -x
 ````
 
+#### Production use
+
+see `uwsgi_setup` folder for examples. Remember to run `./manage.py collectstatic` to populate the `static` folder.
+
 
 #### Credits
 
