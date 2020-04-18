@@ -7,16 +7,23 @@ This project is built on top of a simplified fork of [django-freeradius](https:/
 Description
 -----------
 
+This project is composed by two components:
+
+- django-freeradius for managing definitions in a freeradius RDBMS schema
+- identity app.
+
 Freeradius definitions can be managed directly using the Django Admin Model Backend, as it come from [django-freeradius](https://github.com/openwisp/django-freeradius).
-The Identity Provisioning procedures are handled in the Identity App, for each Digital Identity we can add one or more provisioning tokens, linked to one ore more RadiusCheck accounts.
-An Admin action can send via email the activation token to the users, through which these can enable their accounts and configure their passwords.
+
+The Identity Provisioning procedure is handled in the Identity App, for each Digital Identity we can have one or more RadiusCheck accounts and provisioning tokens. An Admin action can send via email the activation token to the users, through which these can enable their accounts and configure their passwords. If a user forgot his password he can request a token to be sent to his delivery, to reset its account.
 
 All the parameters and configuration of these applications can be found in the `settings.py` file in the app folder, these can be also redefined (overloaded) in the global `settingslocal.py` file.
 
-
+### Gallery
+-------------------------------------------------
 ![Landing page](gallery/1.png)
 ![User panel](gallery/2.png)
 ![Backend page](gallery/4.png)
+------------------------------------------------
 
 #### Features
 
