@@ -4,13 +4,12 @@ Django Freeradius Manager
 Django Freeradius Manager is an admin interface to a freeradius 3 database with identity management and credentials provisioning.
 This project is built on top of a simplified fork of [django-freeradius](https://github.com/openwisp/django-freeradius) from [OpenWISP Project](http://openwisp.org/).
 
-Description
------------
+#### Description
 
 This project is composed by two components:
 
 - django-freeradius for managing definitions in a freeradius RDBMS schema
-- identity app.
+- identity app
 
 Freeradius definitions can be managed directly using the Django Admin Model Backend, as it come from [django-freeradius](https://github.com/openwisp/django-freeradius).
 
@@ -18,14 +17,7 @@ The Identity Provisioning procedure is handled in the Identity App, for each Dig
 
 All the parameters and configuration of these applications can be found in the `settings.py` file in the app folder, these can be also redefined (overloaded) in the global `settingslocal.py` file.
 
-### Gallery
--------------------------------------------------
-![Landing page](gallery/1.png)
-![User panel](gallery/2.png)
-![Backend page](gallery/4.png)
-------------------------------------------------
-
-#### Features
+#### Main features
 
 - Full localization support based on Django
 - Identity management
@@ -34,6 +26,14 @@ All the parameters and configuration of these applications can be found in the `
 - Users can view all their connections and devices in a responsive Ajax DataTable
 - Importable identities via a [CSV file](freerad_manager/static/template_accounts.csv). Only __first_name__, __last_name__ and __email__ are mandatory. 
 - Many Freeradius Accounts to one identity
+
+
+### Gallery
+-------------------------------------------------
+![Landing page](gallery/1.png)
+![User panel](gallery/2.png)
+![Backend page](gallery/4.png)
+------------------------------------------------
 
 #### Setup
 
