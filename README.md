@@ -1,7 +1,7 @@
 Django Freeradius Manager
 ---------------------------
 
-Django Freeradius Manager is an admin interface to a freeradius 3 database with identity management and credentials provisioning.
+Django Freeradius Manager is an Admin interface to a Freeradius 3 RDBMS with Identity Management and Credentials Provisioning.
 This project is built on top of a simplified fork of [django-freeradius](https://github.com/openwisp/django-freeradius) from [OpenWISP Project](http://openwisp.org/).
 
 #### Description
