@@ -3,66 +3,126 @@
 # More info at https://github.com/italia/publiccode.yml
 
 publiccodeYmlVersion: '0.2'
-name: django-freeradius-manager
-softwareVersion: 'v0.4.0'
-releaseDate: '2020-04-12'
-url: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager'
-landingURL: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager'
-developmentStatus: stable
-softwareType: standalone/web
-roadmap: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager/issues'
-platforms:
-  - linux
-  - web
-usedBy:
-  - 'https://www.unical.it'
 categories:
   - identity-management
-maintenance:
-  type: internal
-  contacts:
-    - name: Giuseppe De Marco
-      email: giuseppe.demarco@unical.it
-      affiliation: unical.it
-legal:
-  license: Apache-2.0
-  mainCopyrightOwner: Università della Calabria
-  authorsFile: AUTHORS
-intendedAudience:
-  scope:
-    - employment
-localisation:
-  localisationReady: True
-  availableLanguages:
-    - it
-    - en
 dependsOn:
   open:
     - name: MariaDB
+      optional: false
+      version: ''
+      versionMax: ''
+      versionMin: ''
     - name: Python
+      optional: false
+      version: ''
+      versionMax: ''
+      versionMin: ''
     - name: Django
+      optional: false
+      version: ''
+      versionMax: ''
+      versionMin: ''
     - name: FreeRadius
-it:
-  countryExtensionVersion: '0.2'
-  conforme:
-    gdpr: true
-    misureMinimeSicurezza: true
-  riuso:
-    codiceIPA: unical
+      optional: false
+      version: ''
+      versionMax: ''
+      versionMin: ''
 description:
   it:
+    documentation: >-
+      https://github.com/UniversitaDellaCalabria/django-freeradius-manager/blob/master/README.md
     features:
-        - Full localization support based on Django
-        - Identity management
-        - Expirable Freeeradius accounts
-        - Credentials provisioning through expirable Token sent via email
-        - Users can view all their connections and devices in a responsive Ajax DataTable
-        - Importable identities via a [CSV file](freerad_manager/static/template_accounts.csv). Only __first_name__, __last_name__ and __email__ are mandatory. 
-        - Many Freeradius Accounts to one identity
-    
-    documentation: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager/blob/master/README.md'
+      - Full localization support based on Django
+      - Identity management
+      - Expirable Freeeradius accounts
+      - Credentials provisioning through expirable Token sent via email
+      - >-
+        Users can view all their connections and devices in a responsive Ajax
+        DataTable
+      - >-
+        Importable identities via a [CSV
+        file](freerad_manager/static/template_accounts.csv)
+      - Many Freeradius Accounts to one identity
     genericName: applicazione web
-    shortDescription: Manager Credenziali FreeRadius basato su RDBMS MariaDB
     longDescription: >
-      Django Freeradius Manager is an admin interface to a freeradius 3 database with identity management and credentials provisioning.
-      This project is built on top of an indipendent fork of [django-freeradius](https://github.com/openwisp/django-freeradius).
+      Django Freeradius Manager is an Admin interface to a Freeradius 3 RDBMS
+      with Identity Management and Credentials Provisioning. This project is
+      built on top of a simplified fork of
+      [django-freeradius](https://github.com/openwisp/django-freeradius) from
+      [OpenWISP Project](http://openwisp.org/).
+
+
+      #### **Description**
+
+
+      This project is composed by two components:
+
+
+      - django-freeradius for managing definitions in a freeradius RDBMS schema
+
+      - identity app
+
+
+      Freeradius definitions can be managed directly using the Django Admin
+      Model Backend, as it come from
+      [django-freeradius](https://github.com/openwisp/django-freeradius).
+
+
+      The Identity Provisioning procedure is handled in the Identity App, for
+      each Digital Identity we can have one or more RadiusCheck accounts and
+      provisioning tokens. An Admin action can send via email the activation
+      token to the users, through which these can enable their accounts and
+      configure their passwords. If a user forgot his password he can request a
+      token to be sent to his delivery, to reset its account.
+
+
+      All the parameters and configuration of these applications can be found in
+      the `settings.py` file in the app folder, these can be also redefined
+      (overloaded) in the global `settingslocal.py` file.
+    shortDescription: Manager Credenziali FreeRadius basato su RDBMS MariaDB
+developmentStatus: stable
+intendedAudience:
+  scope:
+    - employment
+it:
+  conforme:
+    gdpr: true
+    lineeGuidaDesign: false
+    misureMinimeSicurezza: true
+    modelloInteroperabilita: false
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+  riuso:
+    codiceIPA: unical
+landingURL: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager'
+legal:
+  authorsFile: >-
+    https://raw.githubusercontent.com/UniversitaDellaCalabria/django-freeradius-manager/master/AUTHORS
+  license: Apache-2.0
+  mainCopyrightOwner: Università della Calabria
+localisation:
+  availableLanguages:
+    - it
+    - en
+  localisationReady: true
+maintenance:
+  contacts:
+    - affiliation: unical.it
+      email: giuseppe.demarco@unical.it
+      name: Giuseppe De Marco
+  type: internal
+name: django-freeradius-manager
+platforms:
+  - linux
+  - web
+releaseDate: '2020-04-12'
+roadmap: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager/issues'
+softwareType: standalone/web
+softwareVersion: v0.4.0
+url: 'https://github.com/UniversitaDellaCalabria/django-freeradius-manager'
+usedBy:
+  - 'https://www.unical.it'
