@@ -80,6 +80,9 @@ description:
       the `settings.py` file in the app folder, these can be also redefined
       (overloaded) in the global `settingslocal.py` file.
     shortDescription: Manager Credenziali FreeRadius basato su RDBMS MariaDB
+    screenshots:
+      - >-
+        https://github.com/UniversitaDellaCalabria/django-freeradius-manager/blob/master/gallery/django-free-radius-manager.png
 developmentStatus: stable
 intendedAudience:
   scope:
