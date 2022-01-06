@@ -23,9 +23,11 @@ class TestIdentity(TestCase):
                     surname='cesare')
         self.raduser, self.radpass = 'test', 'value'
         self.identity = Identity.objects.create(**data)
-        self.radcheck = RadiusCheck.objects.create(username=self.raduser,
-                                                   value=encode_secret(new_value=self.radpass),
-                                                   valid_until=timezone.now()+timezone.timedelta(days=365))
+        self.radcheck = RadiusCheck.objects.create(
+            username=self.raduser,
+            value=encode_secret(new_value=self.radpass),
+            valid_until=timezone.now()+timezone.timedelta(days=365)
+        )
         self.identity.create_token(self.radcheck)
 
     def test_radcheck(self):

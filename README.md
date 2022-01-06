@@ -55,6 +55,8 @@ source env/bin/activate
 pip3 install -r requirements.txt
 ````
 
+Copy `freerad_manager/settingslocal.py.example` to `freerad_manager/settingslocal.py` and customize all the params you need.
+
 Create a Database for this project and put these credentials in `freerad_manager/settingslocal.py`
 ````
 sudo mysql -u root -e "CREATE DATABASE IF NOT EXISTS radius; GRANT ALL ON radius.* TO radius@'%' IDENTIFIED BY '$RADIUS_PWD'; \
