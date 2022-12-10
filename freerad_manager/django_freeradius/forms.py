@@ -20,7 +20,7 @@ class RadiusCheckAdminForm(forms.ModelForm):
                           '! % - _ + = [ ] { } : , . ? < > ( ) ; ')
     # custom field not backed by database
     new_value = forms.CharField(label=_('Value'), required=False,
-                                min_length=8,
+                                min_length=settings.FREERADIUS_RADCHECK_SECRET_MIN_LENGTH,
                                 max_length=radcheck_value_field.max_length,
                                 widget=forms.PasswordInput(),
                                 help_text=_secret_help_text)
