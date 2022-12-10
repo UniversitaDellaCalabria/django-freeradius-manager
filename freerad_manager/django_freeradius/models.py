@@ -1,5 +1,5 @@
 import csv
-from base64 import encodestring
+from base64 import encodebytes as encodestring
 from hashlib import md5, sha1
 from io import StringIO
 from os import urandom
