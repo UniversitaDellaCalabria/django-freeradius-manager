@@ -26,13 +26,13 @@ class RadiusCheckAdminForm(forms.ModelForm):
                                 help_text=_secret_help_text)
 
     def clean_attribute(self):
-        if self.data['attribute'] not in settings.DISABLED_SECRET_FORMATS:
+        if self.data['attribute'] not in settings.FREERADIUS_DISABLED_SECRET_FORMATS:
             return self.cleaned_data['attribute']
 
     def clean_new_value(self):
         if not self.data['new_value']:
             return None
-        for regexp in settings.RADCHECK_SECRET_VALIDATORS.values():
+        for regexp in settings.FREERADIUS_RADCHECK_SECRET_VALIDATORS.values():
             found = re.findall(regexp, self.data['new_value'])
             if not found:
                 raise ValidationError(self._secret_help_text)
